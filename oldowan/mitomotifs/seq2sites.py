@@ -148,7 +148,7 @@ def align(query, reference, word_size=15, mismatch_cutoff=0.5):
         slice1 = s1[mm.query_slice()]
         slice2 = s2[mm.target_slice()]
         alignments = biopython.pairwise2.align.globalms(slice1, slice2, 
-                                                        5, -2, -2, -1)
+                                                        3, -1, -3, -2)
         aln_polymorphisms = []        
         for alignment in alignments:
             this_aln_polymorphisms = []
