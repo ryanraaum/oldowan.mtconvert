@@ -1,0 +1,109 @@
+Transform human mtDNA sequence to variant sites and vice versa.
+
+oldowan.mitomotifs is a small, pure Python, bioinformatic utility to (1)
+transform human mitochondral DNA sequence data into variant sites relative to
+the revised Cambridge Reference Sequence (rCRS) and (2) transform variant sites
+data into DNA sequence. Further information on the rCRS and variant site
+nomenclature for human mtDNA sequences is available at the MitoMotifs_ website. 
+
+Installation Instructions
+=========================
+
+This package is pure Python and has no dependencies outside of the standard
+library. The easist way to install is using ``easy_install`` from the
+setuptools_ package.  This usually goes something like this::
+
+	$ easy_install oldowan.mitomotifs
+
+or on a unix-like system, assuming you are installing to the main Python
+``site-packages`` directory as a non-privileged user, this::
+
+	$ sudo easy_install oldowan.mitomotifs
+
+You may also use the standard python distutils setup method. Download the
+current source archive from the file list towards the bottom of this page,
+unarchive it, and install. On Mac OS X and many other unix-like systems, having
+downloaded the archive and changed to the directory containing this archive in
+your shell, this might go something like::
+
+	$ tar xvzf oldowan.mitomotifs*
+	$ cd oldowan.mitomotifs*
+	$ python setup.py install
+
+Quick Start
+===========
+
+Import ``seq2sites`` and ``sites2seq`` from oldowan.mitomotifs::
+
+  >>> from oldowan.mitomotifs import seq2sites, sites2seq
+
+Convert sequence to sites::
+
+  >>> seq = """TTCTTTCATGGGGAAGCAGATTTGGGTACCACCCAA
+  GTATTGACTCACCCATCAACAACCGCTATGTATTTCGTACATTACTGCC
+  AGCCACCATGAATATTGTACAGTACCATAAATACTTGACCACCTGTAGT
+  ACATAAAAACCCAATCCACATCAAAACCCCCTCCCCATGCTTACAAGCA
+  AGTACAGCAATCAACCTTCAACTATCACACATCAACTGCAACTCCAAAG
+  CCACCCCTCACCCACTAGGATACCAACAAACCTACCCACCCTTAACAGT
+  ACATAGTACATAAAGCCATTTACCGTACATAGCACATTACAGTCAAATC
+  CCTTCTCGTCCC"""
+  >>> seq2sites(seq)
+
+Sequences must be contiguous! Separate runs of sequence, such as HVR1 and HVR2
+without the intervening sequence interval, must be analyzed separately.
+
+There is also a cutoff on the number of ambigous sites (N) allowed in the
+sequence. By default, this is 10 - but this is an option that can be set::
+
+  >>> seq2sites(seq, ambig_cutoff=20)
+
+Convert a list of variable sites to sequence. The default sequence region that
+is returned is hypervariable region 1 (HVR1), which is positions 16024 to 16365
+of the rCRS (in biological one-based numbering)::
+
+  >>> sites2seq('16129A 16223T')
+
+Predefined sequence regions are:
+
+- HVR1: 16024-16365
+- HVR2: 73-340
+- HVR1to2: 16024-340
+- coding: 577-15992
+- all: 1-16559
+
+So, to convert a list of HVR2 sites to sequence::
+
+  >>> sites2seq('73G', region='HVR2')
+
+Sites may also be provided in a list::
+
+  >>> sites2seq(['16129A', '16223T', '73G'], region='HVR1to2')
+
+The rCRS sequence will be returned given an empty string, empty list, or the
+string 'rCRS'. All of the following are equivalent::
+
+  >>> sites2seq('')
+  >>> sites2seq([])
+  >>> sites2seq('rCRS')
+
+Arbitrary positions may be selected by passing a list of sites to the
+``region`` option::
+
+  >>> sites2seq('', region=[1,2,3])
+
+The Python range function is convenient for this, but you must remember that
+the range does not include it's ending position::
+
+  >>> sites2seq('', region=range(73,341))  # include 340, but not 341
+    
+Release History ===============
+
+1.0.0 (August 16, 2008)
+    initial release of module.
+
+1.0.1 (August 22, 2008)
+    new 'add16k' option to sites2seq for abbreviated HVR1 sites (i.e. 16129A as 129A)
+
+
+.. _MitoMotifs: http://mitomotifs.raaum.org
+.. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
