@@ -83,7 +83,7 @@ def find_match_positions(query, reference, word_size=15):
     return matches
 
 
-def align(query, reference, word_size=15, mismatch_cutoff=0.5):
+def align(query, reference, word_size=15, mismatch_cutoff=0.7):
     """
     Align two similar sequences.
     
