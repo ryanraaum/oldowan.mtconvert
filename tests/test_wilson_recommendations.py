@@ -183,6 +183,8 @@ def test_example_18():
     b = Polymorphism(315,1,'C')
     seq = 'CATAACAAAAAATTTCCACCAAACCCCCCTCCCCCCGCTTCTGGCCACAGCACTT'
     result = seq2sites(seq)
+    print 'expected: %s' % [a,b]
+    print 'actual:   %s' % result
     assert len(result) == 2
     assert a in result
     assert b in result
@@ -241,6 +243,8 @@ def test_example_22():
     h = Polymorphism(111,0,'-')
     seq = 'TCGTCTGGGGGGTATGCACGCGATAGCATTGCGAGATCCTGGAGCCCCCTATGTCGCAGTATCT'
     result = seq2sites(seq)
+    print 'expected: %s' % [a,b,c,d,e,f,g,h]
+    print 'actual:   %s' % result
     assert len(result) == 8
     assert a in result
     assert b in result
