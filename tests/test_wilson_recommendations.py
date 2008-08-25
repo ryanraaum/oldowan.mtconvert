@@ -160,6 +160,8 @@ def test_example_16():
     c = Polymorphism(16193,2,'C')
     seq = 'CCTGTAGTACATAAAAACCCAATCCACATCAAACCCCCTCCCCCCATGCTTACAAGCAAGT'
     result = seq2sites(seq)
+    print 'expected: %s' % [a,b,c]
+    print 'actual:   %s' % result
     assert len(result) == 3
     assert a in result
     assert b in result

@@ -253,3 +253,37 @@ def prefer_315_insertion_over_double_310_insertion(mb):
             return [[var1,var2]]
     return mb
 
+def prefer_indels_over_ts_over_tv(mb):
+    """Prefer indels over transitions over transversions.
+
+    Following reccomendation 2 of Wilson et al. 2002:
+       
+       If there is more than one way to maintain the same number of 
+       differences with respect to the reference sequence, differences
+       should be prioritized in the following manner:
+       (a) insertions/deletions (indels)
+       (b) transitions
+       (c) transversions
+
+    """
+    if len(mb) > 1:
+        scores = [0] * len(mb)
+        # pos: position
+        # aa: alternate alignment
+        for pos, aa in enumerate(mb):
+            for variant in aa:
+                if variant.is_insertion() or variant.is_deletion():
+                    scores[pos] += 2
+                elif variant.is_transition():
+                    scores[pos] += 1
+        if max(scores) > 0:
+            # lsi: indices of lower scoring alternate alignments
+            lsi = list(x for x in range(len(mb)) if scores[x] < max(scores))
+            # remove low scoring alignments from the mismatch block
+            # in reverse order so as to not mess up the preceding indices
+            lsi.sort(reverse=True)
+            for i in lsi:
+                mb.pop(i)
+
+    return mb
+

@@ -12,6 +12,7 @@ from reduction_funcs import prefer_indels_at_end
 from reduction_funcs import prefer_multi_inserts
 from reduction_funcs import prefer_insertions_at_309_and_315
 from reduction_funcs import prefer_315_insertion_over_double_310_insertion
+from reduction_funcs import prefer_indels_over_ts_over_tv 
 from reduction_funcs import remove_duplicates
 
 # rCRSplus is an expanded rCRS sequence, which starts at position 15500,
@@ -196,6 +197,7 @@ def seq2sites(seq, word_size=15, mismatch_cutoff=0.7, ambig_cutoff=10):
                         prefer_fewer,
                         prefer_multi_inserts,
                         prefer_indels_at_end,
+                        prefer_indels_over_ts_over_tv,
                         remove_duplicates ]
 
     polys = []
@@ -210,5 +212,7 @@ def seq2sites(seq, word_size=15, mismatch_cutoff=0.7, ambig_cutoff=10):
         if len(mismatch_block) == 1:
             for site in mismatch_block[0]:
                 unnested.append(site)
+        else:
+            unnested.append(mismatch_block)
     return unnested
 
