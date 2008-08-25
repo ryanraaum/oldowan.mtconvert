@@ -287,3 +287,10 @@ def prefer_indels_over_ts_over_tv(mb):
 
     return mb
 
+
+def prefer_end_of_sorted_list(mb):
+    """When all eles fails, prefer the end of the sorted list."""
+    for aa in mb:
+        aa.sort()
+    mb.sort()
+    return [mb[-1]]

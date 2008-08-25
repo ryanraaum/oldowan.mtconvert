@@ -14,6 +14,7 @@ from reduction_funcs import prefer_insertions_at_309_and_315
 from reduction_funcs import prefer_315_insertion_over_double_310_insertion
 from reduction_funcs import prefer_indels_over_ts_over_tv 
 from reduction_funcs import remove_duplicates
+from reduction_funcs import prefer_end_of_sorted_list
 
 # rCRSplus is an expanded rCRS sequence, which starts at position 15500,
 #          then runs through the whole genome, then has the opening
@@ -198,7 +199,8 @@ def seq2sites(seq, word_size=15, mismatch_cutoff=0.7, ambig_cutoff=10):
                         prefer_multi_inserts,
                         prefer_indels_at_end,
                         prefer_indels_over_ts_over_tv,
-                        remove_duplicates ]
+                        remove_duplicates,
+                        prefer_end_of_sorted_list ]
 
     polys = []
     for block in polymorphisms:
