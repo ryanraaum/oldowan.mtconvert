@@ -3,7 +3,6 @@ from oldowan.mitomotifs.polymorphism import Polymorphism
 from oldowan.mitomotifs.reduction_funcs import prefer_fewer
 from oldowan.mitomotifs.reduction_funcs import prefer_indels_at_end
 from oldowan.mitomotifs.reduction_funcs import prefer_multi_inserts
-from oldowan.mitomotifs.reduction_funcs import remove_duplicates
 
 def test_fewer_is_better_one_vs_two():
     input  = [['a'], ['b', 'c']]
@@ -219,16 +218,4 @@ def test_pick_one_two_base_insertion_over_two_separate_insertions():
     output = [[a,b]]
     assert output == prefer_multi_inserts(input)
     
-def test_remove_duplicates_of_single_site():
-    a = Polymorphism(1,0,'A')
-    input  = [[a], [a]]
-    output = [[a]]
-    assert output == remove_duplicates(input)
-
-def test_remove_duplicates_with_multiple_sites():
-    a = Polymorphism(1,0,'A')
-    b = Polymorphism(2,0,'A')
-    input = [[a,b], [a,b], [a,b], [a,b]]
-    output = [[a,b]]
-    assert output == remove_duplicates(input)
 
