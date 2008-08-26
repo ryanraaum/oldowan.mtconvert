@@ -208,7 +208,6 @@ def seq2sites(seq, word_size=15, mismatch_cutoff=0.7, ambig_cutoff=10):
     for block in polymorphisms:
         for f in reduction_funcs:
             block = f(block)
-            print f,block
         polys.append(block)
 
     # elminate a lot of the excess nesting
