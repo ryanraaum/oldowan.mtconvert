@@ -174,15 +174,6 @@ def prefer_indels_at_end(mb):
         
     return mb
 
-def remove_duplicates(mb):
-    """Remove duplicate alternative alignments.
-    """
-    unique = []
-    for x in mb:
-        x.sort()
-        if x not in unique:
-            unique.append(x)
-    return unique
 
 def prefer_insertions_at_309_and_315(mb):
     """Prefer alternatives that include 309.1C or 315.1C over others.
