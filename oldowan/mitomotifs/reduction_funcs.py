@@ -332,6 +332,35 @@ def prefer_95ins_97del_over_96T_97C(mb):
     return mb
 
 
+def prefer_16183C_16188T_16189C_over_16183d_16193insC(mb):
+    """16183C and 16189C are common substitutions that are lost sometimes.
+
+    This special case breaks the rules (more changes than necessary),
+    but keeps common substitutions 16183C and 16189C, which is observed
+    in 655 out of 5049 haplotypes in the 2007 Genographic haplotype listing.
+
+    In this particular example, there is the 16188T substitution, which 
+    leads the algorithm to choose 16183d, 16193.1C.
+    """
+    for aa in mb:
+        aa_str = list(str(x) for x in aa)
+        a = '16183d'
+        b = '16193.1C'
+        if a in aa_str and b in aa_str:
+            var1_ind = aa_str.index(a)
+            var2_ind = aa_str.index(b)
+            indices = [var1_ind, var2_ind]
+            indices.sort(reverse=True)
+            for i in indices:
+                aa.pop(i)
+            aa.append(Polymorphism(16183,0,'C','A'))
+            aa.append(Polymorphism(16188,0,'T','C'))
+            aa.append(Polymorphism(16189,0,'C','T'))
+            aa.sort() 
+    return mb
+
+
+
 def prefer_indels_over_ts_over_tv(mb):
     """Prefer indels over transitions over transversions.
 
