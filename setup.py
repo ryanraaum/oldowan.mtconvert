@@ -4,7 +4,7 @@ import sys, os
 desc_lines = open('README', 'r').readlines()
 
 setup(name='oldowan.mitomotifs',
-      version='1.0.1',
+      version='1.0.2',
       description=desc_lines[0],
       long_description=''.join(desc_lines[2:]),
       classifiers=[
