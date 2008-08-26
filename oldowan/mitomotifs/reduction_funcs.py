@@ -35,6 +35,7 @@ def prefer_fewer(mb):
     mb = list(x for x in mb if len(x) == len(mb[0]))
     return mb
 
+
 def prefer_known_substitutions(mb):
     """Prefer substitutions previously seen to new substitutions.
 
@@ -67,6 +68,7 @@ def prefer_known_substitutions(mb):
                 mb.pop(i)
 
     return mb
+
 
 def prefer_multi_inserts(mb):
     """Prefer several insertions at one site over separate insertions.
@@ -101,6 +103,7 @@ def prefer_multi_inserts(mb):
             mb = new_mb
 
     return mb
+
 
 def prefer_indels_at_end(mb):
     """Prefer alignments with insertions and deletions moved 3'.
@@ -205,6 +208,7 @@ def prefer_insertions_at_309_and_315(mb):
 
     return mb
 
+
 def prefer_315_insertion_over_double_310_insertion(mb):
     """Solely to (partially) fulfill Wilson et al. 2002 example 19.
 
@@ -243,6 +247,7 @@ def prefer_315_insertion_over_double_310_insertion(mb):
             return [[var1,var2]]
     return mb
 
+
 def prefer_309del_315ins_over_309T_310C(mb):
     """Fulfill Wilson et al. 2002 example 18.
 
@@ -266,7 +271,7 @@ def prefer_309del_315ins_over_309T_310C(mb):
         OBS: AAACCCCCC-TCCCCCCGC
 
     However, their rule 3 is that insertions and deletions should
-    be combined where the same number of differences to the reference
+    be preferred where the same number of differences to the reference
     sequence is maintained.
 
     Therefore, this rule replaces 309T, 310C with 309d, 3151.C
@@ -281,6 +286,49 @@ def prefer_309del_315ins_over_309T_310C(mb):
             var1 = Polymorphism(309,0,'-','C')
             var2 = Polymorphism(315,1,'C','-')
             return [[var1,var2]]
+    return mb
+
+
+def prefer_95ins_97del_over_96T_97C(mb):
+    """Fulfill Wilson et al. 2002 example 22.
+
+    Pairwise alignment parameters must favor substitutions over
+    indels for most outcomes to be what is expected. However, there
+    are situations, like this, where that mismatch between what must
+    be done algorithmically conflicts with the selection rules (which
+    state that indels should be preferred over substitutions). Thus,
+    we have this special case.
+
+    Without this special case, the solution to Wilson et al's example
+    18 is 96T, 97C:
+
+        REF: AGACGCTGGAGCC
+        OBS: AGATCCTGGAGCC
+
+    But, following the rule, that indels are preferred over substitutions,
+    Wilson et al offer 95.1T, 97d:
+
+        REF: AGA-CGCTGGAGCC
+        OBS: AGATC-CTGGAGCC
+
+    However, their rule 3 is that insertions and deletions should
+    be preferred where the same number of differences to the reference
+    sequence is maintained.
+
+    Therefore, this rule replaces 96T, 97C with 95.1T,97d 
+
+    Any universal application of a rule that will do this
+    breaks a lot of other desired behavior, thus, this special pleading.
+    """
+    if len(mb) == 1:
+        mb_str = list(str(x) for x in mb[0])
+        if '96T' in mb_str and '97C' in mb_str:
+            var1_ind = mb_str.index('96T')
+            var2_ind = mb_str.index('97C')
+            var1 = Polymorphism(95,1,'T','-')
+            var2 = Polymorphism(97,0,'-','G')
+            mb[0][var1_ind] = var1
+            mb[0][var2_ind] = var2
     return mb
 
 
