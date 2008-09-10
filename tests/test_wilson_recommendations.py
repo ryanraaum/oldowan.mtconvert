@@ -157,7 +157,17 @@ def test_example_15():
     assert d in result
 
 def test_example_16():
-    """For this example to pass, most of the others wouldn't."""
+    """For this example to pass, most of the others wouldn't.
+    
+    In addition, I question this recommendation.
+
+    Currently, with this example not working here, the variant
+    sites recognized are:
+
+    16183C 16187.1T 16189C
+
+    of which both 16183C and 16189C are common.
+    """
     assert True
     # a = Polymorphism(16183,0,'-')
     # b = Polymorphism(16193,1,'C')
