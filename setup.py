@@ -24,6 +24,6 @@ setup(name='oldowan.mitomotifs',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=False,
       namespace_packages = ['oldowan'],
-      zip_safe=True,
+      zip_safe=False,
       test_suite = 'nose.collector',
       )
