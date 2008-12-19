@@ -150,8 +150,9 @@ def align(query, reference, word_size=15, mismatch_cutoff=0.7):
     for mm in merged_matches:
         slice1 = s1[mm.query_slice()]
         slice2 = s2[mm.target_slice()]
+        # align2 args (seq1, seq2, match_score, mismatch_penalty, gap_penalty, gap_extension_penalty)
         alignments = biopython.pairwise2.align.globalms(slice1, slice2, 
-                                                        3, -1, -3, -2)
+                                                        3, -1, -3, -1)
         aln_polymorphisms = []        
         for alignment in alignments:
             this_aln_polymorphisms = []
