@@ -3,7 +3,7 @@ import sys, os
 
 desc_lines = open('README', 'r').readlines()
 
-setup(name='oldowan.mitomotifs',
+setup(name='oldowan.mtconvert',
       version='1.0.2',
       description=desc_lines[0],
       long_description=''.join(desc_lines[2:]),
@@ -18,7 +18,7 @@ setup(name='oldowan.mitomotifs',
       keywords='bioinformatics',
       author='Ryan Raaum',
       author_email='code@raaum.org',
-      url='http://mitomotifs.raaum.org',
+      url='http://www.raaum.org',
       license='MIT',
       platforms = ['Any'],
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
