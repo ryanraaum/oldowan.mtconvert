@@ -23,6 +23,10 @@ setup(name='oldowan.mtconvert',
       platforms = ['Any'],
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=False,
+      install_requires=[
+          "oldowan.polymorphism >= 1.0.0",
+          "oldowan.mtdna >= 1.0.0"
+      ],
       namespace_packages = ['oldowan'],
       zip_safe=False,
       test_suite = 'nose.collector',

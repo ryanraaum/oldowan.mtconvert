@@ -4,7 +4,7 @@ from types import StringType,ListType
 
 import biopython.pairwise2
 
-from polymorphism import Polymorphism
+from oldowan.polymorphism import Polymorphism
 
 from reduction_funcs import prefer_known_substitutions
 from reduction_funcs import prefer_fewer
@@ -24,7 +24,7 @@ from reduction_funcs import prefer_95ins_97del_over_96T_97C
 #          origin will still be analyzable.
 # rCRSplus_positions maps the string indices of rCRSplus to their positions
 #          in the reference sequence.
-from rCRS import rCRSplus, rCRSplus_positions
+from oldowan.mtdna import rCRSplus, rCRSplus_positions
 
 class MatchingRange(object):
     

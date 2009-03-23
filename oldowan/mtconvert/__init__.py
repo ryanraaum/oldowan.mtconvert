@@ -1,4 +1,4 @@
-"""This is the OldowanMitoMotifs package."""
+"""This is the Oldowanmtconvert package."""
 
 __all__ = ['sites2seq', 'seq2sites', 'sites2str'] 
 
@@ -10,10 +10,10 @@ __all__ = ['sites2seq', 'seq2sites', 'sites2str']
 # application. In this case, the namespace import approach fails and
 # we fall back to direct import.
 try:
-    from oldowan.mitomotifs.sites2seq import sites2seq
-    from oldowan.mitomotifs.str2sites import str2sites
-    from oldowan.mitomotifs.seq2sites import seq2sites
-    from oldowan.mitomotifs.sites2str import sites2str
+    from oldowan.mtconvert.sites2seq import sites2seq
+    from oldowan.mtconvert.str2sites import str2sites
+    from oldowan.mtconvert.seq2sites import seq2sites
+    from oldowan.mtconvert.sites2str import sites2str
 except:
     from sites2seq import sites2seq
     from str2sites import str2sites

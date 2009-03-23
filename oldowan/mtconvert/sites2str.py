@@ -1,5 +1,5 @@
 from types import StringType, ListType
-from seq2sites import Polymorphism
+from oldowan.polymorphism import Polymorphism
 
 def sites2str(sites):
     """Transform a list of Polymorphisms to a string.

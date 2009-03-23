@@ -1,4 +1,4 @@
-from polymorphism import Polymorphism
+from oldowan.polymorphism import Polymorphism
 from mitomap_data import substitutions
 
 # COMMON ABBREVIATIONS USED HERE

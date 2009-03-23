@@ -1,18 +1,18 @@
 import re
 from types import StringType, ListType, DictType, IntType
 
-from polymorphism import Polymorphism
+from oldowan.polymorphism import Polymorphism
 from str2sites import str2sites
 
 # rCRSlist is the rCRS sequence exploded into a list with biological numbering
-from rCRS import rCRSlist
+from oldowan.mtdna import rCRSlist
 
-from rCRS import HVR1_indices
-from rCRS import HVR2_indices
-from rCRS import HVR1and2_indices
-from rCRS import HVR1to2_indices
-from rCRS import coding_indices
-from rCRS import all_indices
+from oldowan.mtdna import HVR1_indices
+from oldowan.mtdna import HVR2_indices
+from oldowan.mtdna import HVR1and2_indices
+from oldowan.mtdna import HVR1to2_indices
+from oldowan.mtdna import coding_indices
+from oldowan.mtdna import all_indices
 
 REGIONS = { 'HVR1'    : HVR1_indices, 
             'HVR2'    : HVR2_indices,

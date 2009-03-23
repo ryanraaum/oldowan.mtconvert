@@ -1,9 +1,9 @@
 import re
 
-from polymorphism import Polymorphism
+from oldowan.polymorphism import Polymorphism
 
 # rCRSlist is the rCRS sequence exploded into a list with biological numbering
-from rCRS import rCRSlist
+from oldowan.mtdna import rCRSlist
 
 RE_SITE = re.compile(r"([0-9]+)(.*)")
 
