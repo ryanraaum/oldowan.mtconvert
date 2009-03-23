@@ -7,7 +7,7 @@ from seq2sites import find_match_positions
 #          origin will still be analyzable.
 # rCRSplus_positions maps the string indices of rCRSplus to their positions
 #          in the reference sequence.
-from rCRS import rCRSplus, rCRSplus_positions
+from oldowan.mtdna import rCRSplus, rCRSplus_positions
 
 WORD_SIZE = 15
 FORCE_SPLIT = 50
