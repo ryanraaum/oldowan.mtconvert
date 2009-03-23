@@ -1,9 +1,9 @@
 from types import *
 
-from oldowan.mitomotifs.seq2sites import seq2sites
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.mtconvert.seq2sites import seq2sites
+from oldowan.polymorphism import Polymorphism
 
-from oldowan.mitomotifs.sites2seq import sites2seq
+from oldowan.mtconvert.sites2seq import sites2seq
 
 def test_523_524_deletions():
     a = Polymorphism(523,0,'-')

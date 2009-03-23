@@ -1,4 +1,4 @@
-from oldowan.mitomotifs.find_range import find_range
+from oldowan.mtconvert.find_range import find_range
 
 def test_it():
     seq = 'TCTCATCAATACAACCCCCGCCCATCCTACCCAGCACACACACCGCTGCTAACCCCAT'

@@ -1,5 +1,5 @@
-from oldowan.mitomotifs.seq2sites import seq2sites
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.mtconvert.seq2sites import seq2sites
+from oldowan.polymorphism import Polymorphism
 
 def test_example_1():
     """Wilson et al 2002 Example 1

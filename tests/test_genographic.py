@@ -1,7 +1,7 @@
-from oldowan.mitomotifs import seq2sites
-from oldowan.mitomotifs import sites2seq
-from oldowan.mitomotifs import str2sites
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.mtconvert import seq2sites
+from oldowan.mtconvert import sites2seq
+from oldowan.mtconvert import str2sites
+from oldowan.polymorphism import Polymorphism
 
 def test_haplotype_1810():
     sites = str2sites('16093C 16183d 16193.1C 16193.2C 16249C')

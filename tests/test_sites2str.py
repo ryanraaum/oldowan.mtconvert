@@ -1,5 +1,5 @@
-from oldowan.mitomotifs.sites2str import sites2str
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.mtconvert.sites2str import sites2str
+from oldowan.polymorphism import Polymorphism
 
 def test_no_sites():
     assert '' == sites2str([])

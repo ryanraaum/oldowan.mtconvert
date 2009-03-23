@@ -1,4 +1,4 @@
-from oldowan.mitomotifs.str2sites import str2sites
+from oldowan.mtconvert.str2sites import str2sites
 
 def test_empty_string():
     assert [] == str2sites('')

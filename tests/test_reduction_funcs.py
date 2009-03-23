@@ -1,8 +1,8 @@
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.polymorphism import Polymorphism
 
-from oldowan.mitomotifs.reduction_funcs import prefer_fewer
-from oldowan.mitomotifs.reduction_funcs import prefer_indels_at_end
-from oldowan.mitomotifs.reduction_funcs import prefer_multi_inserts
+from oldowan.mtconvert.reduction_funcs import prefer_fewer
+from oldowan.mtconvert.reduction_funcs import prefer_indels_at_end
+from oldowan.mtconvert.reduction_funcs import prefer_multi_inserts
 
 def test_fewer_is_better_one_vs_two():
     input  = [['a'], ['b', 'c']]

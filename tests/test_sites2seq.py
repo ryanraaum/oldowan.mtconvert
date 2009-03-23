@@ -1,6 +1,6 @@
-from oldowan.mitomotifs.sites2seq import sites2seq
-from oldowan.mitomotifs.rCRS import rCRS
-from oldowan.mitomotifs.polymorphism import Polymorphism
+from oldowan.mtconvert.sites2seq import sites2seq
+from oldowan.mtdna import rCRS
+from oldowan.polymorphism import Polymorphism
 
 def test_single_site_as_string():
     sites = '16129-'
