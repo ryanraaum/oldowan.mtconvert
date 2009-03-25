@@ -3,8 +3,12 @@ import sys, os
 
 desc_lines = open('README', 'r').readlines()
 
+version_file = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'oldowan','mtdna', 'VERSION'))
+version = version_file.read().strip()
+version_file.close()
+
 setup(name='oldowan.mtconvert',
-      version='1.0.2',
+      version=version,
       description=desc_lines[0],
       long_description=''.join(desc_lines[2:]),
       classifiers=[

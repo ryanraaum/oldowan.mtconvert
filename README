@@ -1,10 +1,10 @@
 Transform human mtDNA sequence to variant sites and vice versa.
 
-oldowan.mitomotifs is a small, pure Python, bioinformatic utility to (1)
+oldowan.mtconvert is a small, pure Python, bioinformatic utility to (1)
 transform human mitochondral DNA sequence data into variant sites relative to
 the revised Cambridge Reference Sequence (rCRS) and (2) transform variant sites
 data into DNA sequence. Further information on the rCRS and variant site
-nomenclature for human mtDNA sequences is available at the MitoMotifs_ website. 
+nomenclature for human mtDNA sequences is available at the mtconvert_ website. 
 
 Installation Instructions
 =========================
@@ -13,12 +13,12 @@ This package is pure Python and has no dependencies outside of the standard
 library. The easist way to install is using ``easy_install`` from the
 setuptools_ package.  This usually goes something like this::
 
-	$ easy_install oldowan.mitomotifs
+	$ easy_install oldowan.mtconvert
 
 or on a unix-like system, assuming you are installing to the main Python
 ``site-packages`` directory as a non-privileged user, this::
 
-	$ sudo easy_install oldowan.mitomotifs
+	$ sudo easy_install oldowan.mtconvert
 
 You may also use the standard python distutils setup method. Download the
 current source archive from the file list towards the bottom of this page,
@@ -26,16 +26,16 @@ unarchive it, and install. On Mac OS X and many other unix-like systems, having
 downloaded the archive and changed to the directory containing this archive in
 your shell, this might go something like::
 
-	$ tar xvzf oldowan.mitomotifs*
-	$ cd oldowan.mitomotifs*
+	$ tar xvzf oldowan.mtconvert*
+	$ cd oldowan.mtconvert*
 	$ python setup.py install
 
 Quick Start
 ===========
 
-Import ``seq2sites`` and ``sites2seq`` from oldowan.mitomotifs::
+Import ``seq2sites`` and ``sites2seq`` from oldowan.mtconvert::
 
-  >>> from oldowan.mitomotifs import seq2sites, sites2seq
+  >>> from oldowan.mtconvert import seq2sites, sites2seq
 
 Convert sequence to sites::
 
@@ -98,12 +98,10 @@ the range does not include it's ending position::
     
 Release History ===============
 
-1.0.0 (August 16, 2008)
+1.0.0 (March 25, 2009)
     initial release of module.
 
-1.0.1 (August 22, 2008)
-    new 'add16k' option to sites2seq for abbreviated HVR1 sites (i.e. 16129A as 129A)
+1.0.1 (March 25, 2009)
+    minor versioning fix
 
-
-.. _MitoMotifs: http://mitomotifs.raaum.org
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall
