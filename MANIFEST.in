@@ -1,1 +1,1 @@
-include oldowan/mtconvert/VERSION
+include oldowan/*/VERSION

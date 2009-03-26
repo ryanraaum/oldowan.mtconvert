@@ -3,12 +3,12 @@ import sys, os
 
 desc_lines = open('README', 'r').readlines()
 
-version_file = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'oldowan','mtdna', 'VERSION'))
-version = version_file.read().strip()
-version_file.close()
+PACKAGE = 'mtconvert'
 
-setup(name='oldowan.mtconvert',
-      version=version,
+VERSION = open(os.path.join(os.path.dirname(os.path.realpath(__file__)),'oldowan', PACKAGE, 'VERSION')).read().strip()
+
+setup(name='oldowan.%s' % PACKAGE,
+      version=VERSION,
       description=desc_lines[0],
       long_description=''.join(desc_lines[2:]),
       classifiers=[
@@ -32,6 +32,7 @@ setup(name='oldowan.mtconvert',
           "oldowan.mtdna >= 1.0.0"
       ],
       namespace_packages = ['oldowan'],
+      data_files=[("oldowan/%s" % PACKAGE, ["oldowan/%s/VERSION" % PACKAGE])],
       zip_safe=False,
       test_suite = 'nose.collector',
       )

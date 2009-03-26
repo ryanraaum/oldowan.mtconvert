@@ -1,4 +1,8 @@
-"""This is the Oldowanmtconvert package."""
+"""This is the oldowan.mtconvert package."""
+
+import os
+
+VERSION = open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'VERSION')).read().strip()
 
 __all__ = ['sites2seq', 'seq2sites', 'sites2str'] 
 
@@ -7,7 +11,7 @@ __all__ = ['sites2seq', 'seq2sites', 'sites2str']
 # will work. 
 #
 # However, I have also included this sub-package directly in other
-# application. In this case, the namespace import approach fails and
+# applications. In this case, the namespace import approach fails and
 # we fall back to direct import.
 try:
     from oldowan.mtconvert.sites2seq import sites2seq
