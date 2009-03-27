@@ -80,11 +80,11 @@ def sites2seq(sites, region='HVR1', add16k=False):
 
     """
     region_type = 'invalid'
-    if (type(region) == StringType and region.upper() in VALID_REGIONS):
+    if type(region) == ListType:
+        region_type = 'list'
+    elif callable(getattr(region, 'upper')) and region.upper() in VALID_REGIONS:
         region_type = 'string'
         region = region.upper()
-    elif type(region) == ListType:
-        region_type = 'list'
     if region_type == 'invalid':
         raise Exception('"region" argument "%s" is invalid' % region)
 
