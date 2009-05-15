@@ -1,10 +1,12 @@
 import csv
 
 def load_csv(file,
-             header         = True,  # column number if present
+             header         = 1,     # number of rows to skip for header info
              hvr1           = False, # column number if present
+             hvr1_covers    = [16024,16365],
              add16k         = True,  # add 16000 to every hvr1 site?
              hvr2           = False, # column number if present
+             hvr2_covers    = [73,340],
              rflps          = False, # column number if present
              rflp_format    = False, # ? how to implement this ?
              sites          = False, # column number(s) if present
