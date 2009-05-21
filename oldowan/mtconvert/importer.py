@@ -13,9 +13,13 @@ def load_csv(file,
              sites_on_rCRS  = False, # matched entry or list for sites columns
              haplogroup     = False, # column number if present
              sample_id      = False, # column number if present
+             sample_id_sep  = ',',   # what separates multiple ids?
              haplotype_id   = False, # column number if present
-             n              = False, # column number if present
+             pop_with_n     = False, # are N's arranged by population?
+             n              = False, # column number(s) if present
+             population     = False, # column number or name or if pop_with_n is True, 
+                                     # names to go with N columns 
              ):
     """Load mitochondrial haplotype definitions from csv file."""
 
-    pass
+    return 1;
