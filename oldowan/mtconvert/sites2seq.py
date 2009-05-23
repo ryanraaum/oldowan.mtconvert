@@ -36,7 +36,7 @@ def flatten(item):
 
 def convert_tuple_region_to_list(region):
     start = region[0]
-    stop  = retion[1]
+    stop  = region[1]
     if start > stop:
         return range(start, 16570) + range(1,stop+1)
     elif stop > start:
