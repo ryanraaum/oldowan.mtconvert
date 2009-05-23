@@ -1,5 +1,5 @@
 import re
-from types import StringType, ListType, DictType, IntType
+from types import StringType, ListType, DictType, IntType, TupleType
 
 from oldowan.polymorphism import Polymorphism
 from str2sites import str2sites
@@ -34,6 +34,15 @@ def flatten(item):
     else:
         return [item]
 
+def convert_tuple_region_to_list(region):
+    start = region[0]
+    stop  = retion[1]
+    if start > stop:
+        return range(start, 16570) + range(1,stop+1)
+    elif stop > start:
+        return range(start, stop+1)
+    else:
+        return [start]
 
 def sites2seq(sites, region='HVR1', add16k=False):
     """
@@ -60,6 +69,8 @@ def sites2seq(sites, region='HVR1', add16k=False):
     7. an array of sites. These site numbers are assumed to start at '1'
        following the usual mtDNA site numbering convention. (Not the starts
        at '0' computer science convention.)
+    8. a tuple of (start, stop). This tuple can span the 0 point
+       (i.e. (16024, 340)). The range is inclusive.
 
     I am following the EMPOP Mitochondrial DNA Control Region Database 
     definition of HVR1 (HVS-I) and HVR2 (HVS-II).
@@ -80,6 +91,8 @@ def sites2seq(sites, region='HVR1', add16k=False):
 
     """
     region_type = 'invalid'
+    if type(region) == TupleType:
+        region = convert_tuple_region_to_list(region)
     if type(region) == ListType:
         region_type = 'list'
     elif callable(getattr(region, 'upper')) and region.upper() in VALID_REGIONS:
