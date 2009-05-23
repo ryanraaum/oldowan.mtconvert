@@ -24,25 +24,26 @@ def test_two_sites_in_string():
 
 def test_two_sites_as_string_in_list():
     sites = ['316C', '316.1A']
-    seq = sites2seq(sites, region=range(314,319))
+    seq = sites2seq(sites, region=(314,318))
     assert seq == 'CCCACT'
 
 def test_two_sites_as_Polymorphisms_in_list():
     sites = [Polymorphism(316,0,'C'), Polymorphism(316,1,'A')]
-    seq = sites2seq(sites, region=range(314,319))
+    seq = sites2seq(sites, region=(314,318))
     assert seq == 'CCCACT'
 
 def test_mix_of_string_and_Polymorphisms_in_list():
     sites = [Polymorphism(316,0,'C'), '316.1A']
-    seq = sites2seq(sites, region=range(314,319))
+    seq = sites2seq(sites, region=(314,318))
     assert seq == 'CCCACT'
     # reverse the order
     sites = ['316.1A', Polymorphism(316,0,'C')]
-    seq = sites2seq(sites, region=range(314,319))
+    seq = sites2seq(sites, region=(314,318))
     assert seq == 'CCCACT'
 
 def test_default_sequence_range_is_HVR1():
     assert sites2seq('') == rCRS[16023:16365]
+    assert sites2seq('', region=(16024,16365)) == rCRS[16023:16365]
 
 def test_rCRS_argument_returns_rCRS():
     assert sites2seq('rCRS') == rCRS[16023:16365]
