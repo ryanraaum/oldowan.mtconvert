@@ -71,6 +71,7 @@ def sites2seq(sites, region='HVR1', add16k=False):
        at '0' computer science convention.)
     8. a tuple of (start, stop). This tuple can span the 0 point
        (i.e. (16024, 340)). The range is inclusive.
+    9. a Coverage object
 
     I am following the EMPOP Mitochondrial DNA Control Region Database 
     definition of HVR1 (HVS-I) and HVR2 (HVS-II).
@@ -93,6 +94,8 @@ def sites2seq(sites, region='HVR1', add16k=False):
     region_type = 'invalid'
     if type(region) == TupleType:
         region = convert_tuple_region_to_list(region)
+    if hasattr(region, 'to_site_list') and hasattr(region.to_site_list, '__call__'):
+        region = region.to_site_list()
     if type(region) == ListType:
         region_type = 'list'
     elif callable(getattr(region, 'upper')) and region.upper() in VALID_REGIONS:
