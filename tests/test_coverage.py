@@ -14,6 +14,7 @@ def test_single_rcrs_segment():
         should_cover = Coverage(item)
         seq = sites2seq('', region=should_cover)
         covers = calc_coverage(seq)
+        print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
         assert should_cover == covers
 
 def test_gapped_rcrs_segments():
@@ -26,7 +27,7 @@ def test_gapped_rcrs_segments():
         should_cover = Coverage(*pair)
         seq = sites2seq('', region=should_cover)
         covers = calc_coverage(seq)
-        print should_cover, covers
+        print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
         assert should_cover == covers
 
 def test_single_variant_segments():
@@ -45,3 +46,28 @@ def test_single_variant_segments():
         covers = calc_coverage(seq)
         print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
         assert should_cover == covers
+
+def test_gapped_variant_segments():
+    should_cover = Coverage((16024,16365),(73,340))
+    variants = ['16311 263 311',
+                '16024 73', # little bit tricky - first site from second chunk is variant 
+                # '16365', # impossible, middle site is a variant
+               ]
+    for v in variants:
+        seq = sites2seq(v, region=should_cover)
+        covers = calc_coverage(seq)
+        print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
+        assert should_cover == covers
+
+def test_more_than_two_gapped_segments():
+    sets = [ [(16024,16365),(73,340),(577,1000)],
+             [(16024,16365),(16300,340),(577,1000)], # overlapping segments
+           ]
+    for s in sets:
+        should_cover = Coverage(*s)
+        seq = sites2seq('', region=should_cover)
+        covers = calc_coverage(seq)
+        print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
+        assert should_cover == covers
+
+
