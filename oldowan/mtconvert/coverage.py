@@ -1,4 +1,5 @@
 from seq2sites import find_match_positions
+from types import TupleType, IntType
 
 # rCRSplus is an expanded rCRS sequence, which starts at position 15500,
 #          then runs through the whole genome, then has the opening
@@ -42,7 +43,11 @@ def create_segment(item):
     """
     if isinstance(item, Segment):
         return item
-    return Segment(item[0], item[1])
+    if type(item) is TupleType:
+        return Segment(item[0], item[1])
+    if type(item) is IntType:
+        return Segment(item, item)
+    raise ArgumentError
 
 
 class Coverage(object):
