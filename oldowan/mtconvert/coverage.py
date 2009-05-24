@@ -9,6 +9,8 @@ from seq2sites import find_match_positions
 #          in the reference sequence.
 from oldowan.mtdna import rCRSplus, rCRSplus_positions
 
+import itertools
+
 WORD_SIZE = 15
 FORCE_SPLIT = 50
 
@@ -26,6 +28,11 @@ class Segment(object):
             return "%d" % self.start
         return "%d:%d" % (self.start, self.stop)
 
+    def to_site_list(self):
+        if self.start > self.stop:
+            return range(self.start, 16570) + range(1,self.stop+1)
+        return range(self.start, self.stop+1)
+
 
 def create_segment(item):
     """(Internal) Create a Segment instance from a tuple (start, stop).
@@ -40,15 +47,29 @@ def create_segment(item):
 
 class Coverage(object):
     
-    def __init__(self, segments):
+    def __init__(self, *segments):
         self.segments = list(create_segment(x) for x in segments)
         self._str = self._make_str()
 
     def __repr__(self):
         return self._str
 
+    def __cmp__(self, other):
+        my_sites = list(set(self.to_site_list()))
+        my_sites.sort()
+        other_sites = list(set(other.to_site_list()))
+        other_sites.sort()
+        if my_sites == other_sites:
+            return 0
+        elif my_sites < other_sites:
+            return -1
+        return 1
+
     def _make_str(self):
         return ','.join(list(str(s) for s in self.segments))
+
+    def to_site_list(self):
+        return list(itertools.chain(*list(x.to_site_list() for x in self.segments)))
 
 
 def calc_num_terminal_mismatches(matches):
@@ -73,7 +94,7 @@ def chunk(chunks, query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
     num_terminal_mismatches = calc_num_terminal_mismatches(matches)
     end_of_range = len(matches) - num_terminal_mismatches
     current_chunk = matches[:end_of_range]
-    current_chunk.append(current_chunk[-(num_terminal_mismatches+1)]+word_size-1)
+    current_chunk.append(current_chunk[-1]+word_size-1)
     chunks.append(current_chunk)
     if num_terminal_mismatches < force_split_at:
         return chunks
@@ -81,12 +102,12 @@ def chunk(chunks, query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
         return chunk(chunks, query[-num_terminal_mismatches:], word_size)
 
 
-def coverage(query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
+def calc_coverage(query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
     chunks = []
     chunk(chunks, query, word_size, force_split_at)
     # chunks are numbered relative to rCRS_plus sequence
     # need to change that to canonical rCRS position numbering
     tr = rCRSplus_positions
     segments = list(Segment(tr[x[0]+1], tr[x[-1]+1]) for x in chunks)
-    return Coverage(segments)
+    return Coverage(*segments)
 

@@ -1,4 +1,5 @@
-from oldowan.mtconvert.coverage import coverage
+from oldowan.mtconvert.coverage import calc_coverage
+from oldowan.mtconvert.coverage import Coverage
 from oldowan.mtconvert.sites2seq import sites2seq
 
 def test_single_rcrs_segment():
@@ -10,20 +11,21 @@ def test_single_rcrs_segment():
               (16000,16569),
              ]
     for item in ranges:
-        seq = sites2seq('', region=item)
-        covers = coverage(seq)
-        print covers.segments[0].start, item[0]
-        print covers.segments[0].stop, item[1]
-        assert covers.segments[0].start == item[0]
-        assert covers.segments[0].stop  == item[1]
+        should_cover = Coverage(item)
+        seq = sites2seq('', region=should_cover)
+        covers = calc_coverage(seq)
+        assert should_cover == covers
 
-def test_gapped():
-    hvr1 = 'TTCTTTCATGGGGAAGCAGATTTGGGTACCACCCAAGTATTGACTCACCCATCAACAACCGCTATGTATTTCGTACATTACTGCCAGCCACCATGAATATTGTACGGTACCATAAATACTTGACCACCTGTAGTACATAAAAACCCAATCCACATCAAAACCCCCTCCCCATGCTTACAAGCAAGTACAGCAATCAACCGTCAACTATCACACATCAACTGCAACTCCAAAGCCACCCCTCACCCACTAGGATACCAACAAACCTACCCACCCTTAACAGTACATAGTACATAAAGCCATTTACCGTACATAGCACATTACAGTCAAATCCCTTCTCGTCCC'
-    hvr2 = 'ATGCACGCGATAGCATTGCGAGACGCTGGAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTCCTGCCTCATCCTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACTTACTAAAGTGTGTTTATTAATTAATGCTTGTAGGACATAATAATAACAATTGAATGTCTGCACAGCCACTTTCCACACAGACATCATAACAAAAAATTTCCACCAAACCCCCCCTCCCCCGCTTCTGGCCACAGCACTTAAACAC'
-    result = coverage(hvr1)
-    print result
-    result = coverage(hvr2)
-    print result
-    result = coverage(hvr1+hvr2)
-    print result
-    #assert False
+def test_gapped_rcrs_segments():
+    ranges = [ [(16024,16365), (73,340) ],
+               [(16024,16569), (73,340) ],
+               [(16024,16569), (73,577) ],
+               [(16024,16400), (1,577) ],
+             ]
+    for pair in ranges:
+        should_cover = Coverage(*pair)
+        seq = sites2seq('', region=should_cover)
+        covers = calc_coverage(seq)
+        print should_cover, covers
+        assert should_cover == covers
+
