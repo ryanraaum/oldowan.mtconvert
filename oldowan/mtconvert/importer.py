@@ -1,3 +1,5 @@
+from oldowan.mtconvert.popset import Population, PopSet
+
 import csv
 
 def load_csv(file,
@@ -22,4 +24,4 @@ def load_csv(file,
              ):
     """Load mitochondrial haplotype definitions from csv file."""
 
-    return 1;
+    return PopSet()

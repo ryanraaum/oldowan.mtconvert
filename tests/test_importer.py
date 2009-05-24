@@ -1,4 +1,5 @@
 from oldowan.mtconvert.importer import load_csv
+from oldowan.mtconvert.coverage import Coverage
 
 import os
 
@@ -23,6 +24,11 @@ def test_file1():
                       sample_id      = 2,     # column number if present
                       n              = 33,    # column number if present
                       )
+
+    should_cover=Coverage((16000,16569),(1,400),3834,6386,6962,7028,8618,8860,8701,10398,10400,10873,11914,11929,12308,12372,12705,14766,15849,15850,15884,15896,15907,15924,15928,15940,15954,15968,15992)
+    assert popset.coverage        == should_cover
+    assert popset.num_populations == 1
+    assert popset.num_samples     == 120
                       
 
 def test_file2():
