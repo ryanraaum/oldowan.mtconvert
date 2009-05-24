@@ -29,3 +29,19 @@ def test_gapped_rcrs_segments():
         print should_cover, covers
         assert should_cover == covers
 
+def test_single_variant_segments():
+    should_cover = Coverage((16024,16365))
+    variants = ['16311',
+                '16223 16265T',
+                '16223 16260 16270 16287 16311',
+                '16148 16172 16187 16188G 16189 16209 16223 16230 16311 16320',
+                '16024', # tricky, first site is a variant
+                '16365', # tricky, last site is a variant
+                '16024 16365', # tricky, both first and last sites are variants
+                '16363 16364 16365', # tricky, last few sites are variants
+               ]
+    for v in variants:
+        seq = sites2seq(v, region=should_cover)
+        covers = calc_coverage(seq)
+        print "should cover: '%s' - does cover: '%s'" % (should_cover, covers)
+        assert should_cover == covers
