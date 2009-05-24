@@ -21,21 +21,41 @@ class Segment(object):
             # there is no zero.
             self.stop = 16569
 
+    def __repr__(self):
+        if self.start == self.stop:
+            return "%d" % self.start
+        return "%d:%d" % (self.start, self.stop)
+
+
+def create_segment(item):
+    """(Internal) Create a Segment instance from a tuple (start, stop).
+
+    If argument supplied is already a segment instance, will pass it through
+    unchanged.
+    """
+    if isinstance(item, Segment):
+        return item
+    return Segment(item[0], item[1])
+
+
 class Coverage(object):
     
-    def __init__(self, chunks):
-        self._chunks = chunks
-        tr = rCRSplus_positions
-        self.segments = list(Segment(tr[x[0]+1], tr[x[-1]+1]) for x in chunks)
+    def __init__(self, segments):
+        self.segments = list(create_segment(x) for x in segments)
         self._str = self._make_str()
 
     def __repr__(self):
         return self._str
 
     def _make_str(self):
-        return ','.join(list("%d:%d" % (s.start,s.stop) for s in self.segments))
+        return ','.join(list(str(s) for s in self.segments))
+
 
 def calc_num_terminal_mismatches(matches):
+    """(Internal) Count the number of -1 entries at the end of a list of numbers.
+
+    These -1 correspond to mismatches in the sequence to sequence search.
+    """
     if matches[-1] != -1:
         return 0
     neg_len = -1
@@ -45,6 +65,10 @@ def calc_num_terminal_mismatches(matches):
 
 
 def chunk(chunks, query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
+    """(Internal) Calculate match positions of query against reference.
+
+    Attempts to identify pasted together query sequences.
+    """
     matches = find_match_positions(query, rCRSplus, word_size)
     num_terminal_mismatches = calc_num_terminal_mismatches(matches)
     end_of_range = len(matches) - num_terminal_mismatches
@@ -60,4 +84,9 @@ def chunk(chunks, query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
 def coverage(query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
     chunks = []
     chunk(chunks, query, word_size, force_split_at)
-    return Coverage(chunks)
+    # chunks are numbered relative to rCRS_plus sequence
+    # need to change that to canonical rCRS position numbering
+    tr = rCRSplus_positions
+    segments = list(Segment(tr[x[0]+1], tr[x[-1]+1]) for x in chunks)
+    return Coverage(segments)
+
