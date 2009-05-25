@@ -94,8 +94,8 @@ def sites2seq(sites, region='HVR1', add16k=False):
     region_type = 'invalid'
     if type(region) == TupleType:
         region = convert_tuple_region_to_list(region)
-    if hasattr(region, 'to_site_list') and hasattr(region.to_site_list, '__call__'):
-        region = region.to_site_list()
+    if hasattr(region, 'sites'):
+        region = region.sites
     if type(region) == ListType:
         region_type = 'list'
     elif callable(getattr(region, 'upper')) and region.upper() in VALID_REGIONS:

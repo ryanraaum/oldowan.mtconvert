@@ -1,5 +1,5 @@
 from seq2sites import find_match_positions
-from types import TupleType, IntType
+from types import TupleType, IntType, ListType
 
 # rCRSplus is an expanded rCRS sequence, which starts at position 15500,
 #          then runs through the whole genome, then has the opening
@@ -15,67 +15,85 @@ import itertools
 WORD_SIZE = 15
 FORCE_SPLIT = 50
 
-class Segment(object):
-    
-    def __init__(self, start, stop):
-        self.start = start
-        self.stop = stop
-        if stop == 0:
-            # there is no zero.
-            self.stop = 16569
+def std_cmp(x,y):
+    if x < y:
+        return -1
+    return 1
 
-    def __repr__(self):
-        if self.start == self.stop:
-            return "%d" % self.start
-        return "%d:%d" % (self.start, self.stop)
-
-    def to_site_list(self):
-        if self.start > self.stop:
-            return range(self.start, 16570) + range(1,self.stop+1)
-        return range(self.start, self.stop+1)
-
-
-def create_segment(item):
-    """(Internal) Create a Segment instance from a tuple (start, stop).
-
-    If argument supplied is already a segment instance, will pass it through
-    unchanged.
-    """
-    if isinstance(item, Segment):
-        return item
-    if type(item) is TupleType:
-        return Segment(item[0], item[1])
-    if type(item) is IntType:
-        return Segment(item, item)
-    raise ArgumentError
-
+def hvr_cmp_f(x,y):
+    if (x < 600 and y < 600) or (x > 15500 and y > 15500):
+        return std_cmp(x,y)
+    if x > 15500 and y < 600:
+        return -1
+    else:
+        return 1
 
 class Coverage(object):
     
     def __init__(self, *segments):
-        self.segments = list(create_segment(x) for x in segments)
+        self._sites = self._segments_to_sites(segments)
         self._str = self._make_str()
+
+    def _segments_to_sites(segments):
+        sites = []
+        for s in segments:
+            if type(s) in (TupleType,ListType):
+                start = s[0]
+                stop  = s[-1]
+                if stop == 0:
+                    stop = 16569
+                if start > stop:
+                    sites = sites + range(start,16570) + range(1,stop+1)
+                else:
+                    sites = sites + range(start,stop+1)
+            if type(s) is IntType:
+                sites.append(s)
+
+        sites = list(set(sites))
+        # little funkiness here to keep the order hvr1 -> hvr2 
+        if all(x < 600 or x > 15500 for x in sites):
+            sites.sort(cmp=hvr_cmp_f)
+        else:
+            sites.sort()
+        return sites
+    _segments_to_sites = staticmethod(_segments_to_sites)
+
+    def __get_sites(self):
+        return self._sites
+
+    sites = property(fget=__get_sites)
 
     def __repr__(self):
         return self._str
 
     def __cmp__(self, other):
-        my_sites = list(set(self.to_site_list()))
-        my_sites.sort()
-        other_sites = list(set(other.to_site_list()))
-        other_sites.sort()
-        if my_sites == other_sites:
+        if self._sites == other.sites:
             return 0
-        elif my_sites < other_sites:
+        elif self._sites < other.sites:
             return -1
         return 1
 
     def _make_str(self):
-        return ','.join(list(str(s) for s in self.segments))
+        s = []
+        i = 0
+        start = None
+        stop  = None
+        while i < len(self._sites):
+            if start is None:
+                start = self._sites[i]
+            i += 1
+            if i >= len(self._sites) or self._sites[i-1] + 1 != self._sites[i]:
+                stop = self._sites[i-1]
+                if start == stop:
+                    s.append("%d" % start)
+                else:
+                    s.append("%d:%d" % (start,stop))
+                start = None
+                stop  = None
+        return ','.join(s)
 
-    def to_site_list(self):
-        return list(itertools.chain(*list(x.to_site_list() for x in self.segments)))
-
+    def intersect(self, other):
+        pass
 
 def calc_num_terminal_mismatches(matches):
     """(Internal) Count the number of -1 entries at the end of a list of numbers.
@@ -138,6 +156,6 @@ def calc_coverage(query, word_size=WORD_SIZE, force_split_at=FORCE_SPLIT):
     # chunks are numbered relative to rCRS_plus sequence
     # need to change that to canonical rCRS position numbering
     tr = rCRSplus_positions
-    segments = list(Segment(tr[x[0]+1], tr[x[-1]+1]) for x in chunks)
+    segments = list((tr[x[0]+1], tr[x[-1]+1]) for x in chunks)
     return Coverage(*segments)
 
