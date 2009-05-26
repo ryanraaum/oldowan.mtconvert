@@ -31,6 +31,8 @@ def load_csv(file,
              n              = False, # column number(s) if present
              population     = False, # column number or name or if pop_with_n is True, 
                                      # names to go with N columns 
+             doi            = False,
+             pmid           = False,
              ):
     """Load mitochondrial haplotype definitions from csv file."""
 
