@@ -5,7 +5,7 @@ import os
 
 TEST_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'importer_test_files')
 TESTFILE1 = os.path.join(TEST_DIR, 'AbuAmero_et_al_2007.csv')
-TESTFILE2 = os.path.join(TEST_DIR, 'Castri_et_al_2009_a.csv')
+TESTFILE2 = os.path.join(TEST_DIR, 'Castri_et_al_2009.csv')
 TESTFILE3 = os.path.join(TEST_DIR, 'Cerny_et_al_2008.csv')
 TESTFILE4 = os.path.join(TEST_DIR, 'Non_in_review.csv')
 TESTFILE5 = os.path.join(TEST_DIR, 'Richards_et_al_2000_Yemen.csv')
@@ -23,9 +23,11 @@ def test_file1():
                       haplogroup     = 1,     # column number if present
                       sample_id      = 2,     # column number if present
                       n              = 33,    # column number if present
+                      population     = 'Saudi Arabia',
                       )
 
     should_cover=Coverage((16000,16569),(1,400),3834,6386,6962,7028,8618,8860,8701,10398,10400,10873,11914,11929,12308,12372,12705,14766,15849,15850,15884,15896,15907,15924,15928,15940,15954,15968,15992)
+    print "should cover: '%s' - does cover: '%s'" % (should_cover, popset.coverage)
     assert popset.coverage        == should_cover
     assert popset.num_populations == 1
     assert popset.num_samples     == 120
