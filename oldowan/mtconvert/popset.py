@@ -6,6 +6,7 @@ class Sample(object):
                        haplotype_id=None,
                        population_id=None,
                        coverage=Coverage((16024,16365)),
+                       polymorphisms=[],
                        doi=None,
                        pmid=None,
                        ):
@@ -13,6 +14,7 @@ class Sample(object):
         self._haplotype_id      = haplotype_id
         self._population_id     = population_id
         self._coverage          = coverage
+        self._polymorphisms     = polymorphisms
         self._doi               = doi
         self._pmid              = pmid
 
@@ -39,7 +41,7 @@ class Population(object):
 
 class PopSet(object):
 
-    def __init__(self, populations=[]):
+    def __init__(self, populations=[], errors=None):
         self.__populations = populations
         if not populations:
             self.__coverage = Coverage()
@@ -49,6 +51,7 @@ class PopSet(object):
                 c = c.intersection(x)
             [collect(x) for x in populations[1:]]
             self.__coverage = c
+        self.__errors = errors
 
     def __get_num_populations(self):
         return len(self.__populations)
@@ -64,3 +67,9 @@ class PopSet(object):
         return self.__coverage
 
     coverage = property(fget=__get_coverage)
+
+    def __get_errors(self):
+        return self.__errors
+
+    errors = property(fget=__get_errors)
+
