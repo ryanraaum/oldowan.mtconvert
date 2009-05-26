@@ -1,5 +1,7 @@
 from oldowan.mtconvert.popset import Sample, Population, PopSet
 from oldowan.mtconvert.coverage import Coverage
+from oldowan.mtconvert.str2sites import str2sites
+from oldowan.mtconvert.error import MtconvertError
 
 import csv
 
@@ -34,7 +36,17 @@ def load_csv(file,
              doi            = False,
              pmid           = False,
              ):
-    """Load mitochondrial haplotype definitions from csv file."""
+    """Load mitochondrial haplotype definitions from csv file.
+    
+    Column numbers are to be provided in python-standard 0-based counting.
+    """
+
+    errors = []
+    line_number = header
+
+    if sites:
+        if len(sites) != len(sites_on_rCRS):
+            errors.append((0, MtconvertError("When sites are included, sites_on_rCRS must match")))
 
     # calculate coverage
     segments = list(x for x in [hvr1_covers, hvr2_covers] if x)
@@ -45,17 +57,17 @@ def load_csv(file,
     # every sample needs an id,
     #  if it is given in the file, we use that
     #  otherwise create one in the format 's#'
-    if sample_id:
+    if sample_id is not False:
         def sample_generator(line):
-            return line[sample_id-1].split(sample_id_sep)
+            return line[sample_id].split(sample_id_sep)
     else:
         def sample_generator(line):
             global s
             count = 0
             if pop_with_n:
-                max = sum(num(line[x-1]) for x in n)
+                max = sum(num(line[x]) for x in n)
             elif n:
-                max = num(line[n-1])
+                max = num(line[n])
             else:
                 max = 1
             while count < max:
@@ -67,9 +79,45 @@ def load_csv(file,
     reader = csv.reader(open(file, 'rU'))
     samples = []
     for l in list(x for x in reader)[header:]:
+
+        line_number += 1
+
+        polymorphisms = []
+
+        if hvr1:
+            try:
+                polys = str2sites(l[hvr1], add16k=add16k)
+                polymorphisms += polys
+            except MtconvertError, e:
+                errors.append( (line_number, e) )
+
+        if hvr2:
+            try:
+                polys = str2sites(l[hvr2])
+                polymorphisms += polys
+            except MtconvertError, e:
+                errors.append( (line_number, e) )
+
+        if sites:
+            for i in range(0,len(sites)):
+                site_index = sites[i]
+                position   = sites_on_rCRS[i]
+                value      = l[site_index].strip().upper()
+                if value in ('','#','?','N'):
+                    pass
+                elif value in ('A','G','C','T'):
+                    try:
+                        poly = str2sites('%d%s' % (position,value))
+                        polymorphisms.append(poly)
+                    except MtconvertError, e:
+                        errors.append( (line_number, e) )
+
         sample_ids = sample_generator(l)        
         for sid in sample_ids:
-            samples.append(Sample(id=sid))
+            samples.append(Sample(id=sid,
+                                  polymorphisms=polymorphisms))
 
     pop = Population(coverage=coverage, samples=samples)
-    return PopSet(populations=[pop])
+    return PopSet(populations=[pop],
+                  errors=errors)
+
