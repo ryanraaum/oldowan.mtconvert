@@ -1,6 +1,7 @@
 import re
 
 from oldowan.polymorphism import Polymorphism
+from oldowan.mtconvert.error import MtconvertError
 
 # rCRSlist is the rCRS sequence exploded into a list with biological numbering
 from oldowan.mtdna import rCRSlist
@@ -35,7 +36,7 @@ def str2sites(a_string, add16k=False):
     invalid_site_indices = list(pos for pos, val in enumerate(matches) if val == None)
     if len(invalid_site_indices) > 0:
         invalid_sites = list(entries[x] for x in invalid_site_indices)
-        raise Exception('These sites are invalid: %s' % invalid_sites)
+        raise MtconvertError(invalid_sites, 'These sites are invalid.')
     positions = [RE_SITE.match(x).groups() for x in entries]
 
     # Populate the site list that we will return, making sure to fix the
