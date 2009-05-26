@@ -82,6 +82,10 @@ def load_csv(file,
 
         line_number += 1
 
+        ###################################################
+        # Read in polymorphism data
+        ###################################################
+
         polymorphisms = []
 
         if hvr1:
@@ -112,9 +116,18 @@ def load_csv(file,
                     except MtconvertError, e:
                         errors.append( (line_number, e) )
 
+        ###################################################
+        # Extract haplogroup
+        ###################################################
+
+        hap = None
+        if haplogroup is not False:
+            hap = l[haplogroup].strip()
+
         sample_ids = sample_generator(l)        
         for sid in sample_ids:
             samples.append(Sample(id=sid,
+                                  haplogroup=hap,
                                   polymorphisms=polymorphisms))
 
     pop = Population(coverage=coverage, samples=samples)

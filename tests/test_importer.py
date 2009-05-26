@@ -33,9 +33,22 @@ def test_file1():
     should_cover=Coverage((16000,16569),(1,400),3834,6386,6962,7028,8618,8860,8701,10398,10400,10873,11914,11929,12308,12372,12705,14766,15849,15850,15884,15896,15907,15924,15928,15940,15954,15968,15992)
     print "should cover: '%s' - does cover: '%s'" % (should_cover, popset.coverage)
     assert popset.coverage        == should_cover
+
     assert popset.num_populations == 1
     assert popset.num_samples     == 120
                       
+    pop = popset.populations[0]
+    haps = ['H'] * 15 + ['I'] + ['J'] * 7 + ['J1'] * 4 + ['J1b'] * 14 + ['J1d'] * 2 + \
+    ['K'] * 7 + ['L2a1a','L2a2','L2c2','L3d1','L3f','L3h1','L3h1','L3i','M'] + \
+    ['M1a'] * 4 + ['M1b1','M25','M3'] + ['N1a'] * 5 + ['N1b'] * 3 + ['N1c'] * 2 + \
+    ['preHV'] * 21 + ['T','T1'] + ['T3'] * 4 + \
+    ['T5'] * 2 + ['U1a'] * 2 + ['U1b','U2e'] + ['U3'] * 2 + \
+    ['U5a1a','U6a','U8b','U9','U9','U9','W','X','X']
+    
+    for i in range(popset.num_samples):
+        print pop.samples[i].haplogroup, haps[i]
+        assert pop.samples[i].haplogroup == haps[i]
+
 
 def test_file2():
     popset = load_csv(TESTFILE2,

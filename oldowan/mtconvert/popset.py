@@ -4,19 +4,26 @@ class Sample(object):
 
     def __init__(self, id=None,
                        haplotype_id=None,
+                       haplogroup=None,
                        population_id=None,
                        coverage=Coverage((16024,16365)),
                        polymorphisms=[],
                        doi=None,
                        pmid=None,
                        ):
-        self._id                = id
-        self._haplotype_id      = haplotype_id
-        self._population_id     = population_id
-        self._coverage          = coverage
-        self._polymorphisms     = polymorphisms
-        self._doi               = doi
-        self._pmid              = pmid
+        self.__id                = id
+        self.__haplotype_id      = haplotype_id
+        self.__haplogroup        = haplogroup
+        self.__population_id     = population_id
+        self.__coverage          = coverage
+        self.__polymorphisms     = polymorphisms
+        self.__doi               = doi
+        self.__pmid              = pmid
+
+    def __get_haplogroup(self):
+        return self.__haplogroup
+
+    haplogroup = property(fget=__get_haplogroup)
 
 
 class Population(object):
@@ -38,6 +45,11 @@ class Population(object):
 
     coverage = property(fget=__get_coverage)
 
+    def __get_samples(self):
+        return self.__samples
+
+    samples = property(fget=__get_samples)
+
 
 class PopSet(object):
 
@@ -57,6 +69,11 @@ class PopSet(object):
         return len(self.__populations)
 
     num_populations = property(fget=__get_num_populations)
+
+    def __get_populations(self):
+        return self.__populations
+
+    populations = property(fget=__get_populations)
 
     def __get_num_samples(self):
         return sum(list(x.num_samples for x in self.__populations)) 
