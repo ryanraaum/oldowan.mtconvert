@@ -92,8 +92,9 @@ class Coverage(object):
                 stop  = None
         return ','.join(s)
 
-    def intersect(self, other):
-        pass
+    def intersection(self, other):
+        same_sites = list(set(self._sites).intersection(other.sites))
+        return Coverage(*same_sites)
 
 def calc_num_terminal_mismatches(matches):
     """(Internal) Count the number of -1 entries at the end of a list of numbers.

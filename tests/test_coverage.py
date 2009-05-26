@@ -2,6 +2,18 @@ from oldowan.mtconvert.coverage import calc_coverage
 from oldowan.mtconvert.coverage import Coverage
 from oldowan.mtconvert.sites2seq import sites2seq
 
+def test_intersection():
+    a = 16024
+    b = 16300
+    c = 16250
+    d = 16500
+    c1 = Coverage((a,b))
+    c2 = Coverage((c,d))
+    c3 = Coverage((c,b))
+    t = c1.intersection(c2)
+    print "should cover: '%s' - does cover: '%s'" % (c3, t)
+    assert c3 == t
+
 def test_single_rcrs_segment():
     ranges = [(16024,16365),
               (73,340),
