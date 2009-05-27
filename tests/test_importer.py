@@ -77,6 +77,9 @@ def test_file1():
     for i in range(popset.num_samples):
         print pop.samples[i].haplogroup, haps[i]
         assert pop.samples[i].haplogroup == haps[i]
+        # check that the population name is correctly assigned while we're looping 
+        # through the samples anyways
+        assert pop.samples[i].population == 'Saudi Arabia'
 
 
 def test_file2():

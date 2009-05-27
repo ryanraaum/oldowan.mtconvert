@@ -59,21 +59,29 @@ def load_csv(file,
     #  otherwise create one in the format 's#'
     if sample_id is not False:
         def sample_generator(line):
-            return line[sample_id].split(sample_id_sep)
+            sids = line[sample_id].split(sample_id_sep)
+            for sid in sids:
+                yield (sid, population)
     else:
         def sample_generator(line):
             global s
             count = 0
+            pop_names = []
             if pop_with_n:
                 max = sum(num(line[x]) for x in n)
+                for i in range(len(n)):
+                    pop_names = pop_names + [population[i]] * num(line[n[i]])
             elif n:
                 max = num(line[n])
+                pop_names = [population] * max
             else:
                 max = 1
+                pop_names = [population]
             while count < max:
+                pop = pop_names[count]
                 count += 1
                 s += 1
-                yield "s%d" % s
+                yield ("s%d" % s, pop)
 
     # start the reader
     reader = csv.reader(open(file, 'rU'))
@@ -128,9 +136,10 @@ def load_csv(file,
             hap = l[haplogroup].strip()
 
         sample_ids = sample_generator(l)        
-        for sid in sample_ids:
+        for (sid,pop) in sample_ids:
             samples.append(Sample(id=sid,
                                   haplogroup=hap,
+                                  population=pop,
                                   coverage=coverage,
                                   polymorphisms=polymorphisms))
 

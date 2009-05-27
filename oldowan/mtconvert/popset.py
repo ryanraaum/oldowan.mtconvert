@@ -6,7 +6,7 @@ class Sample(object):
     def __init__(self, id,
                        haplotype_id=None,
                        haplogroup=None,
-                       population_id=None,
+                       population=None,
                        coverage=Coverage(),
                        polymorphisms=[],
                        doi=None,
@@ -15,7 +15,7 @@ class Sample(object):
         self.__id                = id
         self.__haplotype_id      = haplotype_id
         self.__haplogroup        = haplogroup
-        self.__population_id     = population_id
+        self.__population        = population
         self.__coverage          = coverage
         self.__polymorphisms     = polymorphisms
         self.__doi               = doi
@@ -35,6 +35,11 @@ class Sample(object):
         return self.__coverage
 
     coverage = property(fget=__get_coverage)
+
+    def __get_population(self):
+        return self.__population
+
+    population = property(fget=__get_population)
 
 
 class Population(object):
