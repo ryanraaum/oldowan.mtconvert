@@ -1,12 +1,13 @@
 from oldowan.mtconvert.coverage import Coverage
 
+
 class Sample(object):
 
-    def __init__(self, id=None,
+    def __init__(self, id,
                        haplotype_id=None,
                        haplogroup=None,
                        population_id=None,
-                       coverage=Coverage((16024,16365)),
+                       coverage=Coverage(),
                        polymorphisms=[],
                        doi=None,
                        pmid=None,
@@ -20,20 +21,41 @@ class Sample(object):
         self.__doi               = doi
         self.__pmid              = pmid
 
+    def __get_id(self):
+        return self.__id
+
+    id = property(fget=__get_id)
+
     def __get_haplogroup(self):
         return self.__haplogroup
 
     haplogroup = property(fget=__get_haplogroup)
 
+    def __get_coverage(self):
+        return self.__coverage
+
+    coverage = property(fget=__get_coverage)
+
 
 class Population(object):
 
     def __init__(self, samples=[],
-                       coverage=Coverage((16024,16365)),
                        ):
 
         self.__samples = samples
-        self.__coverage = coverage
+        if not samples:
+            self.__coverage = Coverage()
+        else:
+            c = samples[0].coverage
+            for x in samples[1:]:
+                c = c.intersection(x.coverage)
+            self.__coverage = c
+
+        self.__samples_dict = {}
+        for s in self.__samples:
+            # TODO: this will break if more than one sample has the same id
+            self.__samples_dict[s.id] = s
+
 
     def __get_num_samples(self):
         return len(self.__samples)
@@ -50,6 +72,8 @@ class Population(object):
 
     samples = property(fget=__get_samples)
 
+    def sample_by_id(self, id):
+        return self.__samples_dict[id]
 
 class PopSet(object):
 
@@ -59,9 +83,8 @@ class PopSet(object):
             self.__coverage = Coverage()
         else:
             c = populations[0].coverage
-            def collect(x):
-                c = c.intersection(x)
-            [collect(x) for x in populations[1:]]
+            for x in populations[1:]:
+                c = c.intersection(x.coverage)
             self.__coverage = c
         self.__errors = errors
 

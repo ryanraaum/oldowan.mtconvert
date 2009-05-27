@@ -93,7 +93,7 @@ class Coverage(object):
         return ','.join(s)
 
     def intersection(self, other):
-        same_sites = list(set(self._sites).intersection(other.sites))
+        same_sites = list(set(self.sites).intersection(other.sites))
         return Coverage(*same_sites)
 
 def calc_num_terminal_mismatches(matches):

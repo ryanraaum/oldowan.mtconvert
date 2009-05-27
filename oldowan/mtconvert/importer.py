@@ -41,6 +41,9 @@ def load_csv(file,
     Column numbers are to be provided in python-standard 0-based counting.
     """
 
+    if population is False:
+        population = "Unknown"
+
     errors = []
     line_number = header
 
@@ -48,11 +51,8 @@ def load_csv(file,
         if len(sites) != len(sites_on_rCRS):
             errors.append((0, MtconvertError("When sites are included, sites_on_rCRS must match")))
 
-    # calculate coverage
+    # base coverage is given by hvr1 and hvr2 covers
     segments = list(x for x in [hvr1_covers, hvr2_covers] if x)
-    if sites_on_rCRS:
-        segments = segments + sites_on_rCRS
-    coverage = Coverage(*segments)
 
     # every sample needs an id,
     #  if it is given in the file, we use that
@@ -73,7 +73,7 @@ def load_csv(file,
             while count < max:
                 count += 1
                 s += 1
-                yield ["s%d" % s]
+                yield "s%d" % s
 
     # start the reader
     reader = csv.reader(open(file, 'rU'))
@@ -87,6 +87,8 @@ def load_csv(file,
         ###################################################
 
         polymorphisms = []
+
+        this_sample_segments = list(x for x in segments)
 
         if hvr1:
             try:
@@ -107,14 +109,15 @@ def load_csv(file,
                 site_index = sites[i]
                 position   = sites_on_rCRS[i]
                 value      = l[site_index].strip().upper()
-                if value in ('','#','?','N'):
-                    pass
-                elif value in ('A','G','C','T'):
+                if value in ('A','G','C','T'):
                     try:
                         poly = str2sites('%d%s' % (position,value))
                         polymorphisms.append(poly)
+                        this_sample_segments.append(position)
                     except MtconvertError, e:
                         errors.append( (line_number, e) )
+
+        coverage = Coverage(*this_sample_segments)
 
         ###################################################
         # Extract haplogroup
@@ -128,9 +131,10 @@ def load_csv(file,
         for sid in sample_ids:
             samples.append(Sample(id=sid,
                                   haplogroup=hap,
+                                  coverage=coverage,
                                   polymorphisms=polymorphisms))
 
-    pop = Population(coverage=coverage, samples=samples)
+    pop = Population(samples=samples)
     return PopSet(populations=[pop],
                   errors=errors)
 

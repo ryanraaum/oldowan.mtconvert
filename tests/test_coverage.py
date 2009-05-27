@@ -14,6 +14,13 @@ def test_intersection():
     print "should cover: '%s' - does cover: '%s'" % (c3, t)
     assert c3 == t
 
+    c1 = Coverage(a,b)
+    c2 = Coverage(b,c)
+    c3 = Coverage(b)
+    t = c1.intersection(c2)
+    print "should cover: '%s' - does cover: '%s'" % (c3, t)
+    assert c3 == t
+
 def test_single_rcrs_segment():
     ranges = [(16024,16365),
               (73,340),

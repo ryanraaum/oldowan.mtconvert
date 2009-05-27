@@ -30,9 +30,38 @@ def test_file1():
         print "%d: %s: %s" % (line, error.message, error.expression)
     assert not popset.errors
 
-    should_cover=Coverage((16000,16569),(1,400),3834,6386,6962,7028,8618,8860,8701,10398,10400,10873,11914,11929,12308,12372,12705,14766,15849,15850,15884,15896,15907,15924,15928,15940,15954,15968,15992)
+    # the coverage for the population is the intersection of all the coverages of all the
+    # samples in that population. In this case, none of the additional sites were typed
+    # in ALL of the samples
+    should_cover=Coverage((16000,16569),(1,400))
     print "should cover: '%s' - does cover: '%s'" % (should_cover, popset.coverage)
-    assert popset.coverage        == should_cover
+    assert popset.coverage                  == should_cover
+    assert popset.populations[0].coverage   == should_cover
+
+    # make sure that a selection of the samples have their appropriate coverage
+    # sample '27' was typed for 7028, 12308, 12372 as well
+    should_cover=Coverage((16000,16569),(1,400),7028,12308,12372)
+    sample_coverage = popset.populations[0].sample_by_id('27').coverage
+    print "should cover: '%s' - does cover: '%s'" % (should_cover, sample_coverage)
+    assert sample_coverage == should_cover
+
+    # sample '223' was typed for only 7028 as well
+    should_cover=Coverage((16000,16569),(1,400),7028)
+    sample_coverage = popset.populations[0].sample_by_id('223').coverage
+    print "should cover: '%s' - does cover: '%s'" % (should_cover, sample_coverage)
+    assert sample_coverage == should_cover
+
+    # sample '50' was typed for 11929, 12308, 12372 as well
+    should_cover=Coverage((16000,16569),(1,400),11929,12308,12372)
+    sample_coverage = popset.populations[0].sample_by_id('50').coverage
+    print "should cover: '%s' - does cover: '%s'" % (should_cover, sample_coverage)
+    assert sample_coverage == should_cover
+
+    # sample '201' was typed for 6962, 7028, 10398, 10400, 10873, 12705, 15884, 15896 as well
+    should_cover=Coverage((16000,16569),(1,400),6962,7028,10398,10400,10873,12705,15884,15896)
+    sample_coverage = popset.populations[0].sample_by_id('201').coverage
+    print "should cover: '%s' - does cover: '%s'" % (should_cover, sample_coverage)
+    assert sample_coverage == should_cover
 
     assert popset.num_populations == 1
     assert popset.num_samples     == 120
