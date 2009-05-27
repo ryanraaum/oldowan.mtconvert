@@ -96,6 +96,11 @@ def test_file2():
                       n              = 4,     # column number if present
                       population     = 5,     # column number(s) if present
                       )
+
+    for line, error in popset.errors:
+        print "%d: %s: %s" % (line, error.message, error.expression)
+    assert not popset.errors
+
                       
 
 def test_file3():
@@ -117,6 +122,11 @@ def test_file3():
                                               # names to go with N columns 
                       )
 
+    for line, error in popset.errors:
+        print "%d: %s: %s" % (line, error.message, error.expression)
+    assert not popset.errors
+
+
 def test_file4():
     popset = load_csv(TESTFILE4,
                       header         = 1,     # number of rows to skip for header info
@@ -137,6 +147,11 @@ def test_file4():
                                               # names to go with N columns 
                       )
 
+    for line, error in popset.errors:
+        print "%d: %s: %s" % (line, error.message, error.expression)
+    assert not popset.errors
+
+
 def test_file5():
     popset = load_csv(TESTFILE5,
                       header         = 1,     # number of rows to skip for header info
@@ -148,4 +163,9 @@ def test_file5():
                       population     = "Yemenite Jews", # column number or name or if pop_with_n is True, 
                                               # names to go with N columns 
                       )
+
+    for line, error in popset.errors:
+        print "%d: %s: %s" % (line, error.message, error.expression)
+    assert not popset.errors
+
 
