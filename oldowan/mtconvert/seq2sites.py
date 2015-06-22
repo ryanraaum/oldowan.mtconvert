@@ -153,6 +153,10 @@ def align(query, reference, word_size=15, mismatch_cutoff=0.7):
         # align2 args (seq1, seq2, match_score, mismatch_penalty, gap_penalty, gap_extension_penalty)
         alignments = biopython.pairwise2.align.globalms(slice1, slice2, 
                                                         3, -1, -3, -1)
+        # if alignment is at end of query, don't penalize end gaps
+        if len(query) == mm.query_end:
+            alignments = biopython.pairwise2.align.globalms(slice1, slice2, 
+                                                        3, -1, -3, -1, penalize_end_gaps=False)            
         aln_polymorphisms = []        
         for alignment in alignments:
             this_aln_polymorphisms = []

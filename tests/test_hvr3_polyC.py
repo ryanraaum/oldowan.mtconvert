@@ -28,9 +28,15 @@ def test_expanded_polyC():
     a = Polymorphism(573,1,'C')
     b = Polymorphism(573,2,'C')
     c = Polymorphism(573,3,'C')
-    seq = 'CCCATCCTACCCAGCACACACACACCGCTGCTAACCCCATACCCCGAACCAACCAAACCCCAAAGACACCCCCCCCCACA'
+    d = Polymorphism(573,4,'C')
+    e = Polymorphism(573,5,'C')
+    f = Polymorphism(573,6,'C')
+    seq = 'ACCCCATACCCCGAACCAACCAAACCCCAAAGACACCCCCCCCCCCCACA'
     result = seq2sites(seq)
-    assert len(result) == 3
+    assert len(result) == 6
     assert a in result
     assert b in result
     assert c in result
+    assert d in result
+    assert e in result
+    assert f in result
