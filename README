@@ -92,7 +92,7 @@ Arbitrary positions may be selected by passing a list of sites to the
   >>> sites2seq('', region=[1,2,3])
 
 The Python range function is convenient for this, but you must remember that
-the range does not include it's ending position::
+the range does not include its ending position::
 
   >>> sites2seq('', region=range(73,341))  # include 340, but not 341
     
@@ -103,5 +103,11 @@ Release History ===============
 
 1.0.1 (March 25, 2009)
     minor versioning fix
+
+1.0.2 (May 27, 2009)
+    partial RFLP implementation
+
+1.0.3 (June 22, 2015)
+    add fix for spurious deletions at end of query
 
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall

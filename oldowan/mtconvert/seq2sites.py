@@ -157,6 +157,13 @@ def align(query, reference, word_size=15, mismatch_cutoff=0.7):
         for alignment in alignments:
             this_aln_polymorphisms = []
             qry_aln, ref_aln = alignment[0], alignment[1]
+            # get rid of trailing deletions at end of query if alignment is at end of query
+            if len(query) == mm.query_end:
+                trail_dels = re.search(r'-+$', qry_aln)
+                if trail_dels is not None:
+                    ndels = len(trail_dels.group())
+                    qry_aln = qry_aln[:-ndels]
+                    ref_aln = ref_aln[:-ndels]
             abs_pos = mm.target_start - 1
             insert = 0
             for pos,val in enumerate(ref_aln):
@@ -170,7 +177,7 @@ def align(query, reference, word_size=15, mismatch_cutoff=0.7):
                     this_aln_polymorphisms.append(new_poly)
                 else:
                     abs_pos += 1
-                    insert = 0
+                    insert = 0                    
             aln_polymorphisms.append(this_aln_polymorphisms)
         
         polymorphisms.append(aln_polymorphisms)
