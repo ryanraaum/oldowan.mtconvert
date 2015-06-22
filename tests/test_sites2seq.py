@@ -84,3 +84,11 @@ def test_deletion_at_start_of_custom_range():
 def test_deletion_in_middle_of_custom_range():
     assert 'G-T' == sites2seq('2-', region=[1,2,3])
 
+def test_sites_outside_region_snp():
+    assert sites2seq('73G') == rCRS[16023:16365]
+
+def test_sites_outside_region_del():
+    assert sites2seq('489d') == rCRS[16023:16365]
+
+def test_sites_outside_region_ins():
+    assert sites2seq('315.1C') == rCRS[16023:16365]

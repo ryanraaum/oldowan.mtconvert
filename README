@@ -110,4 +110,10 @@ Release History ===============
 1.0.3 (June 22, 2015)
     add fix for spurious deletions at end of query
 
+1.0.4 (June 22, 2015)
+    improve fix for spurious deletions at end of query
+
+1.0.5 (June 22, 2015)
+    sites outside requested region should pass silently; fix for insertions
+
 .. _setuptools: http://peak.telecommunity.com/DevCenter/EasyInstall

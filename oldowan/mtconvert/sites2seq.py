@@ -143,14 +143,15 @@ def sites2seq(sites, region='HVR1', add16k=False):
         # keep updating the position of the insertion
         insertions.sort(reverse=True)
         for current in insertions:
-            increment = lambda x: x + 1 if x > current.position else x
-            requested_positions = list(increment(x) for x in requested_positions)
-            # the list completion properly increments all positions higher than
-            # the insertion position, but ends up skipping the point of
-            # insertion altogether, so add that back in to the list
-            insert_index = requested_positions.index(current.position)+1
-            requested_positions.insert(insert_index, current.position+1)
-            working.insert(current.position+1, current.value)
+            if current.position in requested_positions:
+                increment = lambda x: x + 1 if x > current.position else x
+                requested_positions = list(increment(x) for x in requested_positions)
+                # the list completion properly increments all positions higher than
+                # the insertion position, but ends up skipping the point of
+                # insertion altogether, so add that back in to the list
+                insert_index = requested_positions.index(current.position)+1
+                requested_positions.insert(insert_index, current.position+1)
+                working.insert(current.position+1, current.value)
         
     result = list(working[x] for x in requested_positions)
     return ''.join(result)
