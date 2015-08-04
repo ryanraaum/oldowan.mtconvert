@@ -26,7 +26,7 @@ setup(name='oldowan.%s' % PACKAGE,
       license='MIT',
       platforms = ['Any'],
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-      include_package_data=False,
+      include_package_data=True,
       install_requires=[
           "oldowan.polymorphism >= 1.0.0",
           "oldowan.mtdna >= 1.0.0"
