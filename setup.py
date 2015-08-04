@@ -32,7 +32,6 @@ setup(name='oldowan.%s' % PACKAGE,
           "oldowan.mtdna >= 1.0.0"
       ],
       namespace_packages = ['oldowan'],
-      data_files=[("oldowan/%s" % PACKAGE, ["oldowan/%s/VERSION" % PACKAGE])],
       zip_safe=False,
       test_suite = 'nose.collector',
       )
