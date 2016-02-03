@@ -1,0 +1,61 @@
+102, fixed
+393, not mitochondrial
+410, repeat of first 4 bases at end, removed
+414, not a full genome, only 16253bp long
+636, extra 'G' at beginning, probably result of miscut, removed 
+733, fixed - problem with overlapping multiple insertions
+738, solved by 733 fix
+739, solved by 733 fix
+878, solved by 733 fix
+1089, solved by 733 fix
+1208, extra 'G' at end, probably result of miscut, removed
+1327, too many 'N's
+1328, too many 'N's
+1329, too many 'N's
+1330, too many 'N's
+1331, too many 'N's
+1332, too many 'N's
+1333, too many 'N's
+1346, not cut at canonical start
+1347, not cut at canonical start
+1806, extra 51 bases at end, result of miscut, removed
+2195, too many 'N's
+2196, too many 'N's
+2199, missing first ~30bp
+2206, too many 'N's
+2207, too many 'N's
+2209, too many 'N's
+2210, too many 'N's
+2211, too many 'N's
+2212, too many 'N's
+2216, too many 'N's
+2217, too many 'N's
+2218, too many 'N's
+2219, too many 'N's
+2220, too many 'N's
+2224, too many 'N's
+2227, missing first ~30bp
+2228, too many 'N's
+2229, too many 'N's
+2232, too many 'N's
+2234, too many 'N's
+2236, too many 'N's
+2238, too many 'N's
+2244, missing first ~30bp
+2278, missing first ~30bp
+2279, missing first ~30bp
+2281, missing first 5bp
+2282, missing first ~30bp
+2285, fix problem with variant at end of query
+2288, too many 'N's
+2667, not complete genome
+2668, not mitochondrial
+2867, missing 'G' at end, added
+3186, not complete genome
+3189, not complete genome
+3298, repeat of first 8bp at end, removed
+3828, extra 'G' at end, removed
+3916, not mitochondrial
+3947, not cut at canonical start
+4089, not mitochondrial
+4092, not cut at canonical start
